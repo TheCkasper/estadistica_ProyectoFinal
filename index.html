@@ -1,0 +1,815 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simulador Estadístico Cuántico | UMG - Ingeniería en Sistemas</title>
+    <!-- Favicon Oficial UMG -->
+    <link rel="icon" type="image/png" href="umg.png">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=Outfit:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@500;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+    <!-- Top System Header Bar -->
+    <header class="app-header">
+        <div class="header-left">
+            <div class="brand-crest">
+                <img src="umg.png" alt="Logo Universidad Mariano Gálvez" class="umg-header-logo">
+                <div class="brand-pulse"></div>
+            </div>
+            <div class="brand-text">
+                <span class="dept-sub">FACULTAD DE INGENIERÍA EN SISTEMAS</span>
+                <h1 class="main-title">UNIVERSIDAD MARIANO GÁLVEZ DE GUATEMALA</h1>
+            </div>
+        </div>
+
+        <div class="header-center">
+            <div class="project-pill">
+                <span class="pill-dot"></span>
+                <span class="pill-label">PLATAFORMA ESTADÍSTICA COMPUTACIONAL</span>
+                <span class="pill-ver">PROYECTO FINAL</span>
+            </div>
+        </div>
+
+        <div class="header-right">
+            <!-- <div class="header-actions">
+                <button class="btn-quick-action" onclick="ejecutarTodosLosModulos()" title="Computar los 8 ejercicios simultáneamente (Atajo: A)">
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
+                    </svg>
+                    <span>EJECUTAR TODOS</span>
+                </button>
+                <button class="btn-quick-action outline" onclick="abrirModalImpresion()" title="Abrir centro de exportación PDF / Impresión">
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="6 9 6 2 18 2 18 9"></polyline>
+                        <path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path>
+                        <rect x="6" y="14" width="12" height="8"></rect>
+                    </svg>
+                    <span>INFORME PDF</span>
+                </button>
+            </div> -->
+            <div class="telemetry-badge">
+                <div class="telemetry-item">
+                    <span class="t-label">SYS_STATUS</span>
+                    <span class="t-value online">ONLINE // READY</span>
+                </div>
+                <div class="telemetry-item">
+                    <span class="t-label">KERNEL CLOCK</span>
+                    <span class="t-value" id="system-clock">--:--:--</span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div class="app-layout">
+        <!-- Sidebar Navigation -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <div class="sidebar-title-wrap">
+                    <svg class="nav-svg-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <rect x="3" y="3" width="7" height="7"></rect>
+                        <rect x="14" y="3" width="7" height="7"></rect>
+                        <rect x="14" y="14" width="7" height="7"></rect>
+                        <rect x="3" y="14" width="7" height="7"></rect>
+                    </svg>
+                    <div>
+                        <h2>MÓDULOS DE ANÁLISIS</h2>
+                        <span class="sidebar-sub">8 VECTORES ESTADÍSTICOS</span>
+                    </div>
+                </div>
+            </div>
+
+            <nav class="modules-nav">
+                <button class="tab-btn active" data-tab="ej1" onclick="openTab('ej1', this)">
+                    <div class="tab-id-box">01</div>
+                    <div class="tab-info">
+                        <span class="tab-name">Detección de Vulnerabilidades</span>
+                        <span class="tab-model">DIST. BINOMIAL</span>
+                    </div>
+                    <span class="tab-indicator"></span>
+                </button>
+
+                <button class="tab-btn" data-tab="ej2" onclick="openTab('ej2', this)">
+                    <div class="tab-id-box">02</div>
+                    <div class="tab-info">
+                        <span class="tab-name">Recuperación de Paquetes</span>
+                        <span class="tab-model">BINOMIAL NEGATIVA</span>
+                    </div>
+                    <span class="tab-indicator"></span>
+                </button>
+
+                <button class="tab-btn" data-tab="ej3" onclick="openTab('ej3', this)">
+                    <div class="tab-id-box">03</div>
+                    <div class="tab-info">
+                        <span class="tab-name">Monitoreo SOC & Incidentes</span>
+                        <span class="tab-model">DIST. POISSON</span>
+                    </div>
+                    <span class="tab-indicator"></span>
+                </button>
+
+                <button class="tab-btn" data-tab="ej4" onclick="openTab('ej4', this)">
+                    <div class="tab-id-box">04</div>
+                    <div class="tab-info">
+                        <span class="tab-name">Disponibilidad Servidores Cloud</span>
+                        <span class="tab-model">DIST. BINOMIAL</span>
+                    </div>
+                    <span class="tab-indicator"></span>
+                </button>
+
+                <button class="tab-btn" data-tab="ej5" onclick="openTab('ej5', this)">
+                    <div class="tab-id-box">05</div>
+                    <div class="tab-info">
+                        <span class="tab-name">Saturación de API REST</span>
+                        <span class="tab-model">PROCESO POISSON</span>
+                    </div>
+                    <span class="tab-indicator"></span>
+                </button>
+
+                <button class="tab-btn" data-tab="ej6" onclick="openTab('ej6', this)">
+                    <div class="tab-id-box">06</div>
+                    <div class="tab-info">
+                        <span class="tab-name">Validación Módulos QA</span>
+                        <span class="tab-model">BINOMIAL NEGATIVA</span>
+                    </div>
+                    <span class="tab-indicator"></span>
+                </button>
+
+                <button class="tab-btn" data-tab="ej7" onclick="openTab('ej7', this)">
+                    <div class="tab-id-box">07</div>
+                    <div class="tab-info">
+                        <span class="tab-name">Latencia Microservicios</span>
+                        <span class="tab-model">DIST. EXPONENCIAL</span>
+                    </div>
+                    <span class="tab-indicator"></span>
+                </button>
+
+                <button class="tab-btn" data-tab="ej8" onclick="openTab('ej8', this)">
+                    <div class="tab-id-box">08</div>
+                    <div class="tab-info">
+                        <span class="tab-name">SLA Rendimiento Base de Datos</span>
+                        <span class="tab-model">DIST. NORMAL (GAUSS)</span>
+                    </div>
+                    <span class="tab-indicator"></span>
+                </button>
+            </nav>
+
+            <!-- <div class="sidebar-user-pill">
+                <div class="user-avatar">
+                    <span>DB</span>
+                </div>
+                <div class="user-meta">
+                    <span class="user-role">ESTUDIANTE // INGENIERÍA</span>
+                    <span class="user-name">David E. Baltazar Gaspar</span>
+                    <span class="user-carnet">CARNET: 0902 - 25 - 20049</span>
+                </div>
+            </div> -->
+        </aside>
+
+        <!-- Main Content Area -->
+        <main class="main-content">
+
+            <!-- MEMBRETE INSTITUCIONAL PARA IMPRESIÓN / EXPORTACIÓN PDF CON LOGO UMG -->
+            <div class="print-official-header">
+                <img src="umg.png" alt="Logo Universidad Mariano Gálvez" class="print-umg-logo">
+                <div class="print-header-details">
+                    <h2 class="print-univ-title">UNIVERSIDAD MARIANO GÁLVEZ DE GUATEMALA</h2>
+                    <h3 class="print-fac-title">FACULTAD DE INGENIERÍA EN SISTEMAS DE INFORMACIÓN Y CIENCIAS DE LA
+                        COMPUTACIÓN</h3>
+                    <p class="print-meta-course">PLATAFORMA ESTADÍSTICA COMPUTACIONAL // EVALUACIÓN FINAL</p>
+                    <p class="print-meta-student"><strong>ESTUDIANTE:</strong> David Emanuel Baltazar Gaspar
+                        &nbsp;|&nbsp; <strong>CARNET:</strong> 0902 - 25 - 20049</p>
+                </div>
+            </div>
+
+            <!-- EJERCICIO 1 -->
+            <section id="ej1" class="tab-content active">
+                <div class="content-header">
+                    <div class="title-meta">
+                        <span class="badge-category">CIBERSEGURIDAD // AUDITORÍA BANCARIA</span>
+                        <span class="badge-distro">DISTRIBUCIÓN BINOMIAL : B(n=18, p=0.12)</span>
+                    </div>
+                    <h3 class="exercise-heading">1. Detección de vulnerabilidades en una auditoría de ciberseguridad
+                    </h3>
+                </div>
+
+                <div class="parameters-grid">
+                    <div class="param-card">
+                        <span class="p-title">MUESTRA (n)</span>
+                        <span class="p-data">18 componentes</span>
+                    </div>
+                    <div class="param-card">
+                        <span class="p-title">PROB. CRÍTICA (p)</span>
+                        <span class="p-data">12.00 % (0.12)</span>
+                    </div>
+                    <div class="param-card">
+                        <span class="p-title">CRITERIO SUSPENSIÓN</span>
+                        <span class="p-data highlight-red">X ≥ 4 componentes</span>
+                    </div>
+                    <div class="param-card">
+                        <span class="p-title">CONDICIÓN</span>
+                        <span class="p-data">Independencia / Constante</span>
+                    </div>
+                </div>
+
+                <div class="description-card">
+                    <div class="desc-terminal-bar">
+                        <span class="terminal-dot red"></span>
+                        <span class="terminal-dot yellow"></span>
+                        <span class="terminal-dot green"></span>
+                        <span class="terminal-title">ESPECIFICACIÓN DEL PROBLEMA</span>
+                    </div>
+                    <p class="description">Una empresa especializada en ciberseguridad realiza auditorías sobre
+                        aplicaciones web
+                        utilizadas por instituciones financieras. Durante una evaluación, los analistas seleccionan
+                        aleatoriamente 18 componentes de software. Según los registros históricos, cada componente tiene
+                        una
+                        probabilidad del 12 % de presentar una vulnerabilidad crítica. Para este análisis se supone que
+                        las
+                        condiciones de los componentes son independientes y que la probabilidad de encontrar una
+                        vulnerabilidad
+                        es constante. La política de seguridad establece que, si se detectan 4 o más componentes
+                        vulnerables,
+                        deberá suspenderse temporalmente la liberación del sistema.</p>
+                </div>
+
+                <div class="actions-bar">
+                    <button class="btn-calculate" onclick="calcularEj1(this)">
+                        <span class="btn-glow"></span>
+                        <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <polygon points="5 3 19 12 5 21 5 3"></polygon>
+                        </svg>
+                        <span>COMPUTAR Y PROCESAR SOLUCIONES</span>
+                    </button>
+                </div>
+
+                <div class="loader-card" id="loader_ej1" style="display: none;"></div>
+                <div class="results-card" id="res_ej1" style="display: none;"></div>
+            </section>
+
+            <!-- EJERCICIO 2 -->
+            <section id="ej2" class="tab-content">
+                <div class="content-header">
+                    <div class="title-meta">
+                        <span class="badge-category">TELECOMUNICACIONES // PROTOCOLOS DE RED</span>
+                        <span class="badge-distro">DISTRIBUCIÓN BINOMIAL NEGATIVA : BN(r=5, p=0.75)</span>
+                    </div>
+                    <h3 class="exercise-heading">2. Recuperación de paquetes en una red de comunicaciones</h3>
+                </div>
+
+                <div class="parameters-grid">
+                    <div class="param-card">
+                        <span class="p-title">ÉXITOS OBJETIVO (r)</span>
+                        <span class="p-data">5 paquetes OK</span>
+                    </div>
+                    <div class="param-card">
+                        <span class="p-title">PROB. TRANSMISIÓN (p)</span>
+                        <span class="p-data">75.00 % (0.75)</span>
+                    </div>
+                    <div class="param-card">
+                        <span class="p-title">LÍMITE MÁXIMO</span>
+                        <span class="p-data highlight-amber">8 intentos máx</span>
+                    </div>
+                    <div class="param-card">
+                        <span class="p-title">SLA CONFIABILIDAD</span>
+                        <span class="p-data">≥ 95.00 %</span>
+                    </div>
+                </div>
+
+                <div class="description-card">
+                    <div class="desc-terminal-bar">
+                        <span class="terminal-dot red"></span>
+                        <span class="terminal-dot yellow"></span>
+                        <span class="terminal-dot green"></span>
+                        <span class="terminal-title">ESPECIFICACIÓN DEL PROBLEMA</span>
+                    </div>
+                    <p class="description">Una empresa de telecomunicaciones está evaluando un protocolo de recuperación
+                        de
+                        paquetes de datos. Cuando se detecta un paquete corrupto, el sistema solicita su retransmisión.
+                        Cada
+                        intento tiene una probabilidad del 75 % de completarse correctamente, de manera independiente.
+                        Para
+                        restablecer una comunicación, el protocolo necesita obtener 5 retransmisiones exitosas. El
+                        sistema
+                        cuenta con una política que permite realizar un máximo de 8 intentos antes de activar un
+                        mecanismo
+                        alternativo de recuperación.</p>
+                </div>
+
+                <div class="actions-bar">
+                    <button class="btn-calculate" onclick="calcularEj2(this)">
+                        <span class="btn-glow"></span>
+                        <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <polygon points="5 3 19 12 5 21 5 3"></polygon>
+                        </svg>
+                        <span>COMPUTAR Y PROCESAR SOLUCIONES</span>
+                    </button>
+                </div>
+
+                <div class="loader-card" id="loader_ej2" style="display: none;"></div>
+                <div class="results-card" id="res_ej2" style="display: none;"></div>
+            </section>
+
+            <!-- EJERCICIO 3 -->
+            <section id="ej3" class="tab-content">
+                <div class="content-header">
+                    <div class="title-meta">
+                        <span class="badge-category">SOC // CENTRO DE OPERACIONES DE SEGURIDAD</span>
+                        <span class="badge-distro">DISTRIBUCIÓN DE POISSON : λ = 0.6 alertas/min</span>
+                    </div>
+                    <h3 class="exercise-heading">3. Monitoreo de incidentes en un centro de operaciones de seguridad
+                    </h3>
+                </div>
+
+                <div class="parameters-grid">
+                    <div class="param-card">
+                        <span class="p-title">TASA BASE</span>
+                        <span class="p-data">9 alertas / 15 min</span>
+                    </div>
+                    <div class="param-card">
+                        <span class="p-title">TASA EN 20 MIN (λ)</span>
+                        <span class="p-data">12.00 alertas</span>
+                    </div>
+                    <div class="param-card">
+                        <span class="p-title">UMBRAL RIESGO</span>
+                        <span class="p-data highlight-red">> 15 alertas / 20 min</span>
+                    </div>
+                    <div class="param-card">
+                        <span class="p-title">LÍMITE FALSA ALARMA</span>
+                        <span class="p-data">
+                            < 5.00 %</span>
+                    </div>
+                </div>
+
+                <div class="description-card">
+                    <div class="desc-terminal-bar">
+                        <span class="terminal-dot red"></span>
+                        <span class="terminal-dot yellow"></span>
+                        <span class="terminal-dot green"></span>
+                        <span class="terminal-title">ESPECIFICACIÓN DEL PROBLEMA</span>
+                    </div>
+                    <p class="description">Un Centro de Operaciones de Seguridad (SOC) monitorea la infraestructura
+                        tecnológica
+                        de una organización. Los registros indican que se producen, en promedio, 9 alertas de seguridad
+                        cada 15
+                        minutos. Se supone que las alertas ocurren independientemente y con una tasa promedio constante
+                        durante
+                        el período estudiado. El sistema de monitoreo considera que existe una posible situación de
+                        riesgo
+                        elevado cuando se registran más de 15 alertas durante 20 minutos.</p>
+                </div>
+
+                <div class="actions-bar">
+                    <button class="btn-calculate" onclick="calcularEj3(this)">
+                        <span class="btn-glow"></span>
+                        <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <polygon points="5 3 19 12 5 21 5 3"></polygon>
+                        </svg>
+                        <span>COMPUTAR Y PROCESAR SOLUCIONES</span>
+                    </button>
+                </div>
+
+                <div class="loader-card" id="loader_ej3" style="display: none;"></div>
+                <div class="results-card" id="res_ej3" style="display: none;"></div>
+            </section>
+
+            <!-- EJERCICIO 4 -->
+            <section id="ej4" class="tab-content">
+                <div class="content-header">
+                    <div class="title-meta">
+                        <span class="badge-category">CLOUD COMPUTING // ALTA DISPONIBILIDAD</span>
+                        <span class="badge-distro">DISTRIBUCIÓN BINOMIAL : B(n=20, p=0.08)</span>
+                    </div>
+                    <h3 class="exercise-heading">4. Disponibilidad de servidores en una infraestructura de nube</h3>
+                </div>
+
+                <div class="parameters-grid">
+                    <div class="param-card">
+                        <span class="p-title">TOTAL SERVIDORES</span>
+                        <span class="p-data">20 virtuales</span>
+                    </div>
+                    <div class="param-card">
+                        <span class="p-title">PROB. FALLA (p)</span>
+                        <span class="p-data">8.00 % por ventana</span>
+                    </div>
+                    <div class="param-card">
+                        <span class="p-title">TOLERANCIA REDUNDANCIA</span>
+                        <span class="p-data highlight-green">Falla ≤ 3 servidores</span>
+                    </div>
+                    <div class="param-card">
+                        <span class="p-title">SLA DISPONIBILIDAD</span>
+                        <span class="p-data">≥ 95.00 %</span>
+                    </div>
+                </div>
+
+                <div class="description-card">
+                    <div class="desc-terminal-bar">
+                        <span class="terminal-dot red"></span>
+                        <span class="terminal-dot yellow"></span>
+                        <span class="terminal-dot green"></span>
+                        <span class="terminal-title">ESPECIFICACIÓN DEL PROBLEMA</span>
+                    </div>
+                    <p class="description">Una empresa de servicios tecnológicos administra una plataforma de comercio
+                        electrónico mediante una infraestructura de 20 servidores virtuales. Durante las pruebas de
+                        disponibilidad, el departamento de operaciones ha determinado que cada servidor tiene una
+                        probabilidad
+                        del 8 % de presentar una falla durante una ventana de mantenimiento de dos horas. Para efectos
+                        del
+                        análisis, se considera que las fallas de los servidores ocurren de manera independiente y que
+                        todos
+                        tienen la misma probabilidad de fallar. El sistema cuenta con mecanismos de redundancia que
+                        permiten
+                        mantener la operación normal siempre que no fallen más de 3 servidores durante esa ventana.</p>
+                </div>
+
+                <div class="actions-bar">
+                    <button class="btn-calculate" onclick="calcularEj4(this)">
+                        <span class="btn-glow"></span>
+                        <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <polygon points="5 3 19 12 5 21 5 3"></polygon>
+                        </svg>
+                        <span>COMPUTAR Y PROCESAR SOLUCIONES</span>
+                    </button>
+                </div>
+
+                <div class="loader-card" id="loader_ej4" style="display: none;"></div>
+                <div class="results-card" id="res_ej4" style="display: none;"></div>
+            </section>
+
+            <!-- EJERCICIO 5 -->
+            <section id="ej5" class="tab-content">
+                <div class="content-header">
+                    <div class="title-meta">
+                        <span class="badge-category">BACKEND // RENDIMIENTO DE APIS REST</span>
+                        <span class="badge-distro">PROCESO DE POISSON : λ = 6 peticiones/min</span>
+                    </div>
+                    <h3 class="exercise-heading">5. Saturación de solicitudes en una API empresarial</h3>
+                </div>
+
+                <div class="parameters-grid">
+                    <div class="param-card">
+                        <span class="p-title">FLUJO MEDIO</span>
+                        <span class="p-data">18 reqs / 3 min</span>
+                    </div>
+                    <div class="param-card">
+                        <span class="p-title">TASA POR MINUTO (λ)</span>
+                        <span class="p-data">6.00 reqs/min</span>
+                    </div>
+                    <div class="param-card">
+                        <span class="p-title">UMBRAL RATE LIMIT</span>
+                        <span class="p-data highlight-red">> 10 reqs / min</span>
+                    </div>
+                    <div class="param-card">
+                        <span class="p-title">RIESGO MÁXIMO</span>
+                        <span class="p-data">5.00 % admisible</span>
+                    </div>
+                </div>
+
+                <div class="description-card">
+                    <div class="desc-terminal-bar">
+                        <span class="terminal-dot red"></span>
+                        <span class="terminal-dot yellow"></span>
+                        <span class="terminal-dot green"></span>
+                        <span class="terminal-title">ESPECIFICACIÓN DEL PROBLEMA</span>
+                    </div>
+                    <p class="description">Una empresa desarrolló una API REST que permite consultar información de
+                        inventarios
+                        en tiempo real. El equipo de desarrollo ha observado que, durante determinados períodos, el
+                        sistema
+                        recibe en promedio 18 solicitudes cada 3 minutos. Se considera que las solicitudes llegan
+                        independientemente y con una tasa promedio constante durante el período analizado. El servidor
+                        dispone
+                        de un mecanismo de protección que genera una alerta cuando recibe más de 10 solicitudes en un
+                        minuto.
+                    </p>
+                </div>
+
+                <div class="actions-bar">
+                    <button class="btn-calculate" onclick="calcularEj5(this)">
+                        <span class="btn-glow"></span>
+                        <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <polygon points="5 3 19 12 5 21 5 3"></polygon>
+                        </svg>
+                        <span>COMPUTAR Y PROCESAR SOLUCIONES</span>
+                    </button>
+                </div>
+
+                <div class="loader-card" id="loader_ej5" style="display: none;"></div>
+                <div class="results-card" id="res_ej5" style="display: none;"></div>
+            </section>
+
+            <!-- EJERCICIO 6 -->
+            <section id="ej6" class="tab-content">
+                <div class="content-header">
+                    <div class="title-meta">
+                        <span class="badge-category">QA TESTING // ASEGURAMIENTO DE CALIDAD</span>
+                        <span class="badge-distro">DISTRIBUCIÓN BINOMIAL NEGATIVA : BN(r=6, p=0.65)</span>
+                    </div>
+                    <h3 class="exercise-heading">6. Validación de módulos durante pruebas de software</h3>
+                </div>
+
+                <div class="parameters-grid">
+                    <div class="param-card">
+                        <span class="p-title">META ÉXITOS (r)</span>
+                        <span class="p-data">6 módulos OK</span>
+                    </div>
+                    <div class="param-card">
+                        <span class="p-title">PROB. SATISFACTORIA</span>
+                        <span class="p-data">65.00 % (0.65)</span>
+                    </div>
+                    <div class="param-card">
+                        <span class="p-title">PRESUPUESTO QA</span>
+                        <span class="p-data highlight-amber">8 pruebas asignadas</span>
+                    </div>
+                    <div class="param-card">
+                        <span class="p-title">OBJETIVO</span>
+                        <span class="p-data">Fase de Aprobación</span>
+                    </div>
+                </div>
+
+                <div class="description-card">
+                    <div class="desc-terminal-bar">
+                        <span class="terminal-dot red"></span>
+                        <span class="terminal-dot yellow"></span>
+                        <span class="terminal-dot green"></span>
+                        <span class="terminal-title">ESPECIFICACIÓN DEL PROBLEMA</span>
+                    </div>
+                    <p class="description">Una empresa de desarrollo está implementando un sistema de gestión académica.
+                        Antes
+                        de liberar la nueva versión, el equipo de QA ejecuta pruebas de validación sobre módulos
+                        seleccionados
+                        de un conjunto amplio de componentes. De acuerdo con los registros históricos, cada prueba tiene
+                        una
+                        probabilidad del 65 % de resultar satisfactoria. Para este estudio se supone que las pruebas son
+                        independientes y mantienen la misma probabilidad de éxito. El responsable del proyecto necesita
+                        obtener
+                        6 pruebas satisfactorias para completar una fase de validación.</p>
+                </div>
+
+                <div class="actions-bar">
+                    <button class="btn-calculate" onclick="calcularEj6(this)">
+                        <span class="btn-glow"></span>
+                        <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <polygon points="5 3 19 12 5 21 5 3"></polygon>
+                        </svg>
+                        <span>COMPUTAR Y PROCESAR SOLUCIONES</span>
+                    </button>
+                </div>
+
+                <div class="loader-card" id="loader_ej6" style="display: none;"></div>
+                <div class="results-card" id="res_ej6" style="display: none;"></div>
+            </section>
+
+            <!-- EJERCICIO 7 -->
+            <section id="ej7" class="tab-content">
+                <div class="content-header">
+                    <div class="title-meta">
+                        <span class="badge-category">REDES & SISTEMAS DISTRIBUIDOS // COLAS DE EVENTOS</span>
+                        <span class="badge-distro">DISTRIBUCIÓN EXPONENCIAL : λ = 0.20 msg/seg</span>
+                    </div>
+                    <h3 class="exercise-heading">7. Tiempo de espera en un sistema de mensajería asíncrona</h3>
+                </div>
+
+                <div class="parameters-grid">
+                    <div class="param-card">
+                        <span class="p-title">TASA DE ENTRADA</span>
+                        <span class="p-data">12 msg / minuto</span>
+                    </div>
+                    <div class="param-card">
+                        <span class="p-title">TASA EN SEGUNDOS (λ)</span>
+                        <span class="p-data">0.20 mensajes/seg</span>
+                    </div>
+                    <div class="param-card">
+                        <span class="p-title">TIEMPO PROMEDIO (1/λ)</span>
+                        <span class="p-data highlight-green">5.00 segundos</span>
+                    </div>
+                    <div class="param-card">
+                        <span class="p-title">UMBRAL TIMEOUT</span>
+                        <span class="p-data">> 15 segundos</span>
+                    </div>
+                </div>
+
+                <div class="description-card">
+                    <div class="desc-terminal-bar">
+                        <span class="terminal-dot red"></span>
+                        <span class="terminal-dot yellow"></span>
+                        <span class="terminal-dot green"></span>
+                        <span class="terminal-title">ESPECIFICACIÓN DEL PROBLEMA</span>
+                    </div>
+                    <p class="description">Una empresa de logística utiliza una arquitectura de microservicios para
+                        procesar
+                        mensajes relacionados con pedidos, entregas y actualizaciones de inventario. Durante las horas
+                        de
+                        operación, un servicio recibe en promedio 12 mensajes por minuto. Para el análisis, se supone
+                        que los
+                        mensajes llegan siguiendo un proceso con tasa constante e independiente. El equipo de monitoreo
+                        está
+                        interesado en el tiempo transcurrido desde un instante de observación hasta la llegada del
+                        siguiente
+                        mensaje, debido a que ciertos procesos dependen de la recepción de nuevos eventos.</p>
+                </div>
+
+                <div class="actions-bar">
+                    <button class="btn-calculate" onclick="calcularEj7(this)">
+                        <span class="btn-glow"></span>
+                        <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <polygon points="5 3 19 12 5 21 5 3"></polygon>
+                        </svg>
+                        <span>COMPUTAR Y PROCESAR SOLUCIONES</span>
+                    </button>
+                </div>
+
+                <div class="loader-card" id="loader_ej7" style="display: none;"></div>
+                <div class="results-card" id="res_ej7" style="display: none;"></div>
+            </section>
+
+            <!-- EJERCICIO 8 -->
+            <section id="ej8" class="tab-content">
+                <div class="content-header">
+                    <div class="title-meta">
+                        <span class="badge-category">BASES DE DATOS & OPTIMIZACIÓN // QUERY PROFILING</span>
+                        <span class="badge-distro">DISTRIBUCIÓN NORMAL : N(μ=240ms, σ=35ms)</span>
+                    </div>
+                    <h3 class="exercise-heading">8. Evaluación del rendimiento y SLA de una base de datos</h3>
+                </div>
+
+                <div class="parameters-grid">
+                    <div class="param-card">
+                        <span class="p-title">TIEMPO MEDIO (μ)</span>
+                        <span class="p-data">240.00 ms</span>
+                    </div>
+                    <div class="param-card">
+                        <span class="p-title">DESVIACIÓN ESTÁNDAR (σ)</span>
+                        <span class="p-data">35.00 ms</span>
+                    </div>
+                    <div class="param-card">
+                        <span class="p-title">REQUISITO SLA</span>
+                        <span class="p-data highlight-green">≤ 300 ms en ≥ 95%</span>
+                    </div>
+                    <div class="param-card">
+                        <span class="p-title">TEST ALTERNATIVO</span>
+                        <span class="p-data">μ=220ms, σ=55ms</span>
+                    </div>
+                </div>
+
+                <div class="description-card">
+                    <div class="desc-terminal-bar">
+                        <span class="terminal-dot red"></span>
+                        <span class="terminal-dot yellow"></span>
+                        <span class="terminal-dot green"></span>
+                        <span class="terminal-title">ESPECIFICACIÓN DEL PROBLEMA</span>
+                    </div>
+                    <p class="description">Una institución financiera implementó una nueva base de datos para procesar
+                        consultas
+                        relacionadas con movimientos y transacciones. Después de ejecutar pruebas de rendimiento, el
+                        equipo de
+                        ingeniería determinó que los tiempos de respuesta individuales pueden aproximarse mediante una
+                        distribución normal, con los siguientes parámetros: Tiempo promedio 240 ms, Desviación estándar
+                        35 ms.
+                        El contrato de nivel de servicio (SLA) establece que al menos el 95 % de las consultas debe
+                        responder en
+                        300 milisegundos o menos.</p>
+                </div>
+
+                <div class="actions-bar">
+                    <button class="btn-calculate" onclick="calcularEj8(this)">
+                        <span class="btn-glow"></span>
+                        <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <polygon points="5 3 19 12 5 21 5 3"></polygon>
+                        </svg>
+                        <span>COMPUTAR Y PROCESAR SOLUCIONES</span>
+                    </button>
+                </div>
+
+                <div class="loader-card" id="loader_ej8" style="display: none;"></div>
+                <div class="results-card" id="res_ej8" style="display: none;"></div>
+            </section>
+
+        </main>
+    </div>
+
+    <!-- Institutional Futuristic Footer -->
+    <footer class="app-footer">
+        <div class="footer-container">
+            <div class="footer-block institutional">
+                <div class="umg-emblem">
+                    <img src="umg.png" alt="Logo Universidad Mariano Gálvez de Guatemala" class="umg-footer-logo">
+                </div>
+                <div class="footer-info">
+                    <h4 class="footer-univ">UNIVERSIDAD MARIANO GÁLVEZ DE GUATEMALA</h4>
+                    <p class="footer-faculty">FACULTAD DE INGENIERÍA EN SISTEMAS DE INFORMACIÓN Y CIENCIAS DE LA
+                        COMPUTACIÓN</p>
+                    <span class="footer-campus">CENTRO UNIVERSITARIO // Guatemala, Cede Cobán, Alta Verapaz</span>
+                </div>
+            </div>
+
+            <div class="footer-divider"></div>
+
+            <div class="footer-block student-meta">
+                <div class="meta-badge-box">
+                    <span class="meta-tag">AUTORÍA DEL PROYECTO</span>
+                    <h5 class="student-name">David Emanuel Baltazar Gaspar</h5>
+                    <span class="student-carnet">CARNET: 0902 - 25 - 20049</span>
+                    <span class="student-role">Ingeniería en Sistemas de Información // Evaluador Estadístico</span>
+                </div>
+            </div>
+
+            <div class="footer-divider"></div>
+
+            <div class="footer-block verification">
+                <div class="cert-status">
+                    <div class="status-indicator-ring"></div>
+                    <div>
+                        <span class="cert-title">PROYECTO FINAL</span>
+                        <span class="cert-hash">Ing. Hector Armando Macz Bac</span>
+                    </div>
+                </div>
+                <p class="cert-copy">&copy; 2026 UMG | Todos los módulos estadísticos validados y computados.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- MODAL FLOTANTE DE EXPORTACIÓN E IMPRESIÓN (CYBER TECH) -->
+    <div id="modal-impresion" class="cyber-modal-overlay" style="display: none;" onclick="cerrarModalPorFondo(event)">
+        <div class="cyber-modal-container">
+            <div class="modal-corner-accent top-left"></div>
+            <div class="modal-corner-accent bottom-right"></div>
+
+            <div class="modal-header">
+                <div class="modal-title-group">
+                    <div class="modal-icon-badge">
+                        <img src="umg.png" alt="Logo UMG" class="umg-modal-logo">
+                    </div>
+                    <div>
+                        <span class="modal-sub">CENTRO DE EXPORTACIÓN & DOCUMENTACIÓN</span>
+                        <h3 class="modal-title">GENERADOR DE INFORME PDF // UMG</h3>
+                    </div>
+                </div>
+                <button class="btn-close-modal" onclick="cerrarModalImpresion()" title="Cerrar ventana">✕</button>
+            </div>
+
+            <div class="modal-body">
+                <p class="modal-desc">Seleccione el alcance de exportación para la entrega académica. El formato
+                    optimizado eliminará hojas en blanco y ensamblará el membrete oficial.</p>
+
+                <div class="print-options-grid">
+                    <!-- Opción 1: Ejercicio Seleccionado -->
+                    <div class="print-option-card active" id="opt-card-single"
+                        onclick="seleccionarOpcionImpresion('single')">
+                        <input type="radio" name="print-scope" value="single" id="scope-single" checked>
+                        <div class="opt-radio-custom"></div>
+                        <div class="opt-content">
+                            <div class="opt-header">
+                                <span class="opt-name">EJERCICIO ACTUAL</span>
+                                <span class="opt-badge" id="badge-active-ej">MÓDULO ACTIVO</span>
+                            </div>
+                            <p class="opt-info" id="info-active-ej">Imprime exclusivamente el ejercicio seleccionado en
+                                pantalla, sin saltos de página sobrantes ni hojas en blanco.</p>
+                        </div>
+                    </div>
+
+                    <!-- Opción 2: Todos los Ejercicios -->
+                    <div class="print-option-card" id="opt-card-all" onclick="seleccionarOpcionImpresion('all')">
+                        <input type="radio" name="print-scope" value="all" id="scope-all">
+                        <div class="opt-radio-custom"></div>
+                        <div class="opt-content">
+                            <div class="opt-header">
+                                <span class="opt-name">TODOS LOS EJERCICIOS (01 - 08)</span>
+                                <span class="opt-badge complete">AUDITORÍA COMPLETA</span>
+                            </div>
+                            <p class="opt-info">Compila y procesa automáticamente los 8 módulos estadísticos, tabulando
+                                soluciones, fórmulas, diagnósticos y gráficos en orden secuencial.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal-student-strip">
+                    <span class="strip-label">RESPONSABLE ACADÉMICO:</span>
+                    <span class="strip-data">David Emanuel Baltazar Gaspar | CARNET: 0902 - 25 - 20049</span>
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <button class="btn-modal-cancel" onclick="cerrarModalImpresion()">CANCELAR</button>
+                <button class="btn-modal-print" onclick="ejecutarImpresionDesdeModal()">
+                    <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="6 9 6 2 18 2 18 9"></polyline>
+                        <path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path>
+                        <rect x="6" y="14" width="12" height="8"></rect>
+                    </svg>
+                    <span>GENERAR DOCUMENTO / IMPRIMIR</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
