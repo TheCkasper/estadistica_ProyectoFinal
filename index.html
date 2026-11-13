@@ -80,14 +80,93 @@
                         <rect x="3" y="14" width="7" height="7"></rect>
                     </svg>
                     <div>
-                        <h2>MÓDULOS DE ANÁLISIS</h2>
-                        <span class="sidebar-sub">8 VECTORES ESTADÍSTICOS</span>
+                        <h2>SUITE ESTADÍSTICA</h2>
+                        <span class="sidebar-sub" id="sidebar-sub-label">CALCULADORA UNIVERSAL</span>
                     </div>
                 </div>
             </div>
 
-            <nav class="modules-nav">
-                <button class="tab-btn active" data-tab="ej1" onclick="openTab('ej1', this)">
+            <!-- SELECTOR PRINCIPAL DE MODO: CALCULADORA UNIVERSAL vs EJERCICIOS -->
+            <div class="mode-switcher-container">
+                <div class="mode-switcher-pill">
+                    <button class="mode-tab-btn active" id="btn-mode-calc" onclick="switchAppMode('calc')" title="Calculadora general para cualquier tipo de probabilidad">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <rect x="4" y="2" width="16" height="20" rx="2"></rect>
+                            <line x1="8" y1="6" x2="16" y2="6"></line>
+                            <line x1="16" y1="14" x2="16" y2="18"></line>
+                            <path d="M16 10h.01"></path>
+                            <path d="M12 10h.01"></path>
+                            <path d="M8 10h.01"></path>
+                            <path d="M12 14h.01"></path>
+                            <path d="M8 14h.01"></path>
+                            <path d="M12 18h.01"></path>
+                            <path d="M8 18h.01"></path>
+                        </svg>
+                        <span>CALCULADORA</span>
+                    </button>
+                    <button class="mode-tab-btn" id="btn-mode-cases" onclick="switchAppMode('cases')" title="Consultar los 8 ejercicios del proyecto de examen">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                            <polyline points="14 2 14 8 20 8"></polyline>
+                            <line x1="16" y1="13" x2="8" y2="13"></line>
+                            <line x1="16" y1="17" x2="8" y2="17"></line>
+                        </svg>
+                        <span>EJERCICIOS</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- GRUPO 1: CALCULADORAS GENERALES DE PROBABILIDAD (MODO LIBRE) -->
+            <nav class="modules-nav" id="nav-calc-group">
+                <button class="tab-btn active" data-tab="calc-binomial" onclick="openTab('calc-binomial', this)">
+                    <div class="tab-id-box">B</div>
+                    <div class="tab-info">
+                        <span class="tab-name">Distribución Binomial</span>
+                        <span class="tab-model">B(n, p) // ENSAYOS DE BERNOULLI</span>
+                    </div>
+                    <span class="tab-indicator"></span>
+                </button>
+
+                <button class="tab-btn" data-tab="calc-binomial-neg" onclick="openTab('calc-binomial-neg', this)">
+                    <div class="tab-id-box">BN</div>
+                    <div class="tab-info">
+                        <span class="tab-name">Binomial Negativa</span>
+                        <span class="tab-model">BN(r, p) // ENSAYOS HASTA r ÉXITOS</span>
+                    </div>
+                    <span class="tab-indicator"></span>
+                </button>
+
+                <button class="tab-btn" data-tab="calc-poisson" onclick="openTab('calc-poisson', this)">
+                    <div class="tab-id-box">P</div>
+                    <div class="tab-info">
+                        <span class="tab-name">Distribución de Poisson</span>
+                        <span class="tab-model">POISSON(λ) // TASA DE OCURRENCIA</span>
+                    </div>
+                    <span class="tab-indicator"></span>
+                </button>
+
+                <button class="tab-btn" data-tab="calc-exponencial" onclick="openTab('calc-exponencial', this)">
+                    <div class="tab-id-box">EXP</div>
+                    <div class="tab-info">
+                        <span class="tab-name">Distribución Exponencial</span>
+                        <span class="tab-model">EXP(λ) // TIEMPOS CONTINUOS</span>
+                    </div>
+                    <span class="tab-indicator"></span>
+                </button>
+
+                <button class="tab-btn" data-tab="calc-normal" onclick="openTab('calc-normal', this)">
+                    <div class="tab-id-box">N</div>
+                    <div class="tab-info">
+                        <span class="tab-name">Normal (Gaussiana)</span>
+                        <span class="tab-model">N(μ, σ) // CAMPANA & PERCENTILES</span>
+                    </div>
+                    <span class="tab-indicator"></span>
+                </button>
+            </nav>
+
+            <!-- GRUPO 2: EJERCICIOS DEL EXAMEN (LOS 8 PROBLEMAS PRÁCTICOS) -->
+            <nav class="modules-nav" id="nav-cases-group" style="display: none;">
+                <button class="tab-btn" data-tab="ej1" onclick="openTab('ej1', this)">
                     <div class="tab-id-box">01</div>
                     <div class="tab-info">
                         <span class="tab-name">Detección de Vulnerabilidades</span>
@@ -159,17 +238,6 @@
                     <span class="tab-indicator"></span>
                 </button>
             </nav>
-
-            <!-- <div class="sidebar-user-pill">
-                <div class="user-avatar">
-                    <span>DB</span>
-                </div>
-                <div class="user-meta">
-                    <span class="user-role">ESTUDIANTE // INGENIERÍA</span>
-                    <span class="user-name">David E. Baltazar Gaspar</span>
-                    <span class="user-carnet">CARNET: 0902 - 25 - 20049</span>
-                </div>
-            </div> -->
         </aside>
 
         <!-- Main Content Area -->
@@ -188,8 +256,512 @@
                 </div>
             </div>
 
+            <!-- ================================================================= -->
+            <!-- 1. CALCULADORA: DISTRIBUCIÓN BINOMIAL                             -->
+            <!-- ================================================================= -->
+            <section id="calc-binomial" class="tab-content active">
+                <div class="content-header">
+                    <div class="title-meta">
+                        <span class="badge-category">CALCULADORA ESTADÍSTICA UNIVERSAL</span>
+                        <span class="badge-distro">DISTRIBUCIÓN BINOMIAL : B(n, p)</span>
+                    </div>
+                    <h3 class="exercise-heading">Calculadora de Probabilidad Binomial</h3>
+                    <p class="section-lead-text">Modela el número de éxitos en $n$ ensayos idénticos e independientes de Bernoulli con probabilidad constante de éxito $p$.</p>
+                </div>
+
+                <!-- Barra de Ejemplos Rápidos -->
+                <div class="example-chips-bar">
+                    <span class="chips-label">CARGAR PRESETS // CASOS DE ESTUDIO:</span>
+                    <button type="button" class="chip-btn" onclick="cargarPresetBinomial(18, 0.12, 'gte', 4)">Caso Ej. 1: Ciberseguridad (n=18, p=12%, X≥4)</button>
+                    <button type="button" class="chip-btn" onclick="cargarPresetBinomial(20, 0.08, 'lte', 3)">Caso Ej. 4: Cloud (n=20, p=8%, X≤3)</button>
+                    <button type="button" class="chip-btn" onclick="cargarPresetBinomial(10, 0.50, 'eq', 5)">Moneda Equilibrada (n=10, p=50%, X=5)</button>
+                </div>
+
+                <!-- Formulario de Entrada -->
+                <div class="calc-form-card">
+                    <div class="calc-inputs-row">
+                        <div class="cyber-input-wrap">
+                            <label for="bin_n" class="cyber-label">
+                                <span class="label-code">n</span>
+                                <span>ENSAYOS INDEPENDIENTES:</span>
+                            </label>
+                            <input type="number" id="bin_n" class="cyber-input" value="18" min="1" max="1000" step="1">
+                            <span class="input-hint">Cantidad total de elementos evaluados (n ≥ 1)</span>
+                        </div>
+
+                        <div class="cyber-input-wrap">
+                            <label for="bin_p" class="cyber-label">
+                                <span class="label-code">p</span>
+                                <span>PROBABILIDAD DE ÉXITO (0 a 1):</span>
+                            </label>
+                            <input type="number" id="bin_p" class="cyber-input" value="0.12" min="0" max="1" step="0.001">
+                            <span class="input-hint">Probabilidad individual de éxito (ej. 0.12 = 12%)</span>
+                        </div>
+
+                        <div class="cyber-input-wrap">
+                            <label for="bin_op" class="cyber-label">
+                                <span class="label-code">OP</span>
+                                <span>TIPO DE CONSULTA:</span>
+                            </label>
+                            <select id="bin_op" class="cyber-select" onchange="toggleBinomialInputs()">
+                                <option value="all">Análisis Integral Completo (Todas las Cotas)</option>
+                                <option value="eq">P(X = x) // Exactamente x éxitos</option>
+                                <option value="lte">P(X ≤ x) // Como máximo x éxitos</option>
+                                <option value="lt">P(X &lt; x) // Menor estricto a x</option>
+                                <option value="gte" selected>P(X ≥ x) // Al menos x éxitos</option>
+                                <option value="gt">P(X &gt; x) // Más de x éxitos</option>
+                                <option value="between">P(a ≤ X ≤ b) // Rango cerrado [a, b]</option>
+                            </select>
+                            <span class="input-hint">Seleccione el operador matemático deseado</span>
+                        </div>
+
+                        <div class="cyber-input-wrap" id="wrap_bin_x">
+                            <label for="bin_x" class="cyber-label">
+                                <span class="label-code">x</span>
+                                <span id="label_bin_x">VALOR CRÍTICO x:</span>
+                            </label>
+                            <input type="number" id="bin_x" class="cyber-input" value="4" min="0" step="1">
+                            <span class="input-hint">Número de éxitos a contrastar</span>
+                        </div>
+
+                        <div class="cyber-input-wrap" id="wrap_bin_b" style="display: none;">
+                            <label for="bin_b" class="cyber-label">
+                                <span class="label-code">b</span>
+                                <span>LÍMITE SUPERIOR b:</span>
+                            </label>
+                            <input type="number" id="bin_b" class="cyber-input" value="6" min="0" step="1">
+                            <span class="input-hint">Límite superior del intervalo</span>
+                        </div>
+                    </div>
+
+                    <div class="calc-action-row">
+                        <button class="btn-calculate" onclick="ejecutarCalcBinomial(this)">
+                            <span class="btn-glow"></span>
+                            <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <polygon points="5 3 19 12 5 21 5 3"></polygon>
+                            </svg>
+                            <span>EJECUTAR CÁLCULO BINOMIAL</span>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="loader-card" id="loader_calc_binomial" style="display: none;"></div>
+                <div class="results-card" id="res_calc_binomial" style="display: none;"></div>
+            </section>
+
+            <!-- ================================================================= -->
+            <!-- 2. CALCULADORA: DISTRIBUCIÓN BINOMIAL NEGATIVA                    -->
+            <!-- ================================================================= -->
+            <section id="calc-binomial-neg" class="tab-content">
+                <div class="content-header">
+                    <div class="title-meta">
+                        <span class="badge-category">CALCULADORA ESTADÍSTICA UNIVERSAL</span>
+                        <span class="badge-distro">BINOMIAL NEGATIVA : BN(r, p)</span>
+                    </div>
+                    <h3 class="exercise-heading">Calculadora Binomial Negativa (Ensayos hasta r éxitos)</h3>
+                    <p class="section-lead-text">Determina la probabilidad de requerir exactamente $x$ ensayos independientes para alcanzar $r$ éxitos fijos.</p>
+                </div>
+
+                <!-- Presets -->
+                <div class="example-chips-bar">
+                    <span class="chips-label">CARGAR PRESETS // CASOS DE ESTUDIO:</span>
+                    <button type="button" class="chip-btn" onclick="cargarPresetBinomialNeg(5, 0.75, 'eq', 7)">Caso Ej. 2: Paquetes (r=5, p=75%, x=7)</button>
+                    <button type="button" class="chip-btn" onclick="cargarPresetBinomialNeg(6, 0.65, 'eq', 10)">Caso Ej. 6: Módulos QA (r=6, p=65%, x=10)</button>
+                </div>
+
+                <!-- Formulario -->
+                <div class="calc-form-card">
+                    <div class="calc-inputs-row">
+                        <div class="cyber-input-wrap">
+                            <label for="nb_r" class="cyber-label">
+                                <span class="label-code">r</span>
+                                <span>ÉXITOS OBJETIVO (r):</span>
+                            </label>
+                            <input type="number" id="nb_r" class="cyber-input" value="5" min="1" step="1">
+                            <span class="input-hint">Cantidad fija de éxitos requeridos (r ≥ 1)</span>
+                        </div>
+
+                        <div class="cyber-input-wrap">
+                            <label for="nb_p" class="cyber-label">
+                                <span class="label-code">p</span>
+                                <span>PROBABILIDAD DE ÉXITO (0 &lt; p ≤ 1):</span>
+                            </label>
+                            <input type="number" id="nb_p" class="cyber-input" value="0.75" min="0.0001" max="1" step="0.001">
+                            <span class="input-hint">Probabilidad de éxito de cada intento independiente</span>
+                        </div>
+
+                        <div class="cyber-input-wrap">
+                            <label for="nb_op" class="cyber-label">
+                                <span class="label-code">OP</span>
+                                <span>TIPO DE CONSULTA:</span>
+                            </label>
+                            <select id="nb_op" class="cyber-select" onchange="toggleBinomialNegInputs()">
+                                <option value="all">Análisis Integral Completo (Cotas + Tabla)</option>
+                                <option value="eq" selected>P(X = x) // Exactamente en el intento x</option>
+                                <option value="lte">P(X ≤ x) // En un máximo de x intentos</option>
+                                <option value="gte">P(X ≥ x) // Necesitar al menos x intentos</option>
+                                <option value="gt">P(X &gt; x) // Necesitar más de x intentos</option>
+                                <option value="between">P(a ≤ X ≤ b) // Rango de intentos [a, b]</option>
+                            </select>
+                            <span class="input-hint">Operador de consulta estocástica</span>
+                        </div>
+
+                        <div class="cyber-input-wrap" id="wrap_nb_x">
+                            <label for="nb_x" class="cyber-label">
+                                <span class="label-code">x</span>
+                                <span id="label_nb_x">INTENTO TOTAL x (x ≥ r):</span>
+                            </label>
+                            <input type="number" id="nb_x" class="cyber-input" value="7" min="1" step="1">
+                            <span class="input-hint">Número total de ensayos evaluados</span>
+                        </div>
+
+                        <div class="cyber-input-wrap" id="wrap_nb_b" style="display: none;">
+                            <label for="nb_b" class="cyber-label">
+                                <span class="label-code">b</span>
+                                <span>LÍMITE SUPERIOR b:</span>
+                            </label>
+                            <input type="number" id="nb_b" class="cyber-input" value="10" min="1" step="1">
+                            <span class="input-hint">Límite superior de intentos</span>
+                        </div>
+                    </div>
+
+                    <div class="calc-action-row">
+                        <button class="btn-calculate" onclick="ejecutarCalcBinomialNeg(this)">
+                            <span class="btn-glow"></span>
+                            <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <polygon points="5 3 19 12 5 21 5 3"></polygon>
+                            </svg>
+                            <span>EJECUTAR CÁLCULO BINOMIAL NEGATIVA</span>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="loader-card" id="loader_calc_nb" style="display: none;"></div>
+                <div class="results-card" id="res_calc_nb" style="display: none;"></div>
+            </section>
+
+            <!-- ================================================================= -->
+            <!-- 3. CALCULADORA: DISTRIBUCIÓN DE POISSON                           -->
+            <!-- ================================================================= -->
+            <section id="calc-poisson" class="tab-content">
+                <div class="content-header">
+                    <div class="title-meta">
+                        <span class="badge-category">CALCULADORA ESTADÍSTICA UNIVERSAL</span>
+                        <span class="badge-distro">PROCESO DE POISSON : P(λ)</span>
+                    </div>
+                    <h3 class="exercise-heading">Calculadora de Probabilidad de Poisson</h3>
+                    <p class="section-lead-text">Modela el número de eventos discretos que ocurren en un intervalo continuo de tiempo o espacio con tasa media constante $\lambda$.</p>
+                </div>
+
+                <!-- Presets -->
+                <div class="example-chips-bar">
+                    <span class="chips-label">CARGAR PRESETS // CASOS DE ESTUDIO:</span>
+                    <button type="button" class="chip-btn" onclick="cargarPresetPoisson(12, 'gt', 15)">Caso Ej. 3: SOC (λ=12 en 20min, X>15)</button>
+                    <button type="button" class="chip-btn" onclick="cargarPresetPoisson(6, 'eq', 8)">Caso Ej. 5: API REST (λ=6 por min, X=8)</button>
+                    <button type="button" class="chip-btn" onclick="cargarPresetPoisson(3, 'lte', 3)">Poisson Pequeño (λ=3, X≤3)</button>
+                </div>
+
+                <!-- Asistente de Proporcionalidad Temporal -->
+                <div class="calc-helper-card">
+                    <div class="helper-header" onclick="togglePoissonHelper()">
+                        <span class="helper-icon">⚡</span>
+                        <span class="helper-title">ASISTENTE DE ESCALA TEMPORAL / PROPORCIONALIDAD DE λ (OPCIONAL)</span>
+                        <span class="helper-toggle" id="helper-poi-arrow">▼</span>
+                    </div>
+                    <div class="helper-body" id="helper-poi-body" style="display: none;">
+                        <p class="helper-desc">Si el problema provee una tasa en una unidad de tiempo diferente (ej. 9 alertas en 15 minutos), este módulo calcula automáticamente el $\lambda$ equivalente para el nuevo intervalo:</p>
+                        <div class="helper-inputs-grid">
+                            <div>
+                                <label class="cyber-label-sm">EVENTOS BASE (k):</label>
+                                <input type="number" id="poi_help_k" class="cyber-input-sm" value="9" min="0" step="any">
+                            </div>
+                            <div>
+                                <label class="cyber-label-sm">TIEMPO BASE (t1):</label>
+                                <input type="number" id="poi_help_t1" class="cyber-input-sm" value="15" min="0.001" step="any">
+                            </div>
+                            <div>
+                                <label class="cyber-label-sm">NUEVO INTERVALO (t2):</label>
+                                <input type="number" id="poi_help_t2" class="cyber-input-sm" value="20" min="0.001" step="any">
+                            </div>
+                            <div class="helper-btn-cell">
+                                <button type="button" class="btn-apply-helper" onclick="aplicarEscalaPoisson()">APLICAR λ CALCULADO</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Formulario -->
+                <div class="calc-form-card">
+                    <div class="calc-inputs-row">
+                        <div class="cyber-input-wrap">
+                            <label for="poi_lambda" class="cyber-label">
+                                <span class="label-code">λ</span>
+                                <span>TASA MEDIA DE EVENTOS (λ &gt; 0):</span>
+                            </label>
+                            <input type="number" id="poi_lambda" class="cyber-input" value="6" min="0.0001" step="any">
+                            <span class="input-hint">Promedio esperado de eventos en el intervalo</span>
+                        </div>
+
+                        <div class="cyber-input-wrap">
+                            <label for="poi_op" class="cyber-label">
+                                <span class="label-code">OP</span>
+                                <span>TIPO DE CONSULTA:</span>
+                            </label>
+                            <select id="poi_op" class="cyber-select" onchange="togglePoissonInputs()">
+                                <option value="all">Análisis Integral Completo (Cotas + Tabla)</option>
+                                <option value="eq" selected>P(X = x) // Exactamente x eventos</option>
+                                <option value="lte">P(X ≤ x) // Como máximo x eventos</option>
+                                <option value="gte">P(X ≥ x) // Al menos x eventos</option>
+                                <option value="gt">P(X &gt; x) // Más de x eventos</option>
+                                <option value="between">P(a ≤ X ≤ b) // Rango cerrado [a, b]</option>
+                            </select>
+                            <span class="input-hint">Criterio estocástico de evaluación</span>
+                        </div>
+
+                        <div class="cyber-input-wrap" id="wrap_poi_x">
+                            <label for="poi_x" class="cyber-label">
+                                <span class="label-code">x</span>
+                                <span id="label_poi_x">EVENTOS EVALUADOS x:</span>
+                            </label>
+                            <input type="number" id="poi_x" class="cyber-input" value="8" min="0" step="1">
+                            <span class="input-hint">Cantidad de ocurrencias observadas</span>
+                        </div>
+
+                        <div class="cyber-input-wrap" id="wrap_poi_b" style="display: none;">
+                            <label for="poi_b" class="cyber-label">
+                                <span class="label-code">b</span>
+                                <span>LÍMITE SUPERIOR b:</span>
+                            </label>
+                            <input type="number" id="poi_b" class="cyber-input" value="12" min="0" step="1">
+                            <span class="input-hint">Límite superior de eventos</span>
+                        </div>
+                    </div>
+
+                    <div class="calc-action-row">
+                        <button class="btn-calculate" onclick="ejecutarCalcPoisson(this)">
+                            <span class="btn-glow"></span>
+                            <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <polygon points="5 3 19 12 5 21 5 3"></polygon>
+                            </svg>
+                            <span>EJECUTAR CÁLCULO DE POISSON</span>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="loader-card" id="loader_calc_poisson" style="display: none;"></div>
+                <div class="results-card" id="res_calc_poisson" style="display: none;"></div>
+            </section>
+
+            <!-- ================================================================= -->
+            <!-- 4. CALCULADORA: DISTRIBUCIÓN EXPONENCIAL                          -->
+            <!-- ================================================================= -->
+            <section id="calc-exponencial" class="tab-content">
+                <div class="content-header">
+                    <div class="title-meta">
+                        <span class="badge-category">CALCULADORA ESTADÍSTICA UNIVERSAL</span>
+                        <span class="badge-distro">DISTRIBUCIÓN EXPONENCIAL : EXP(λ)</span>
+                    </div>
+                    <h3 class="exercise-heading">Calculadora de Distribución Exponencial Continua</h3>
+                    <p class="section-lead-text">Modela el tiempo transcurrido hasta el próximo evento en procesos sin memoria con tasa media $\lambda$ (o tiempo medio $\beta = 1/\lambda$).</p>
+                </div>
+
+                <!-- Presets -->
+                <div class="example-chips-bar">
+                    <span class="chips-label">CARGAR PRESETS // CASOS DE ESTUDIO:</span>
+                    <button type="button" class="chip-btn" onclick="cargarPresetExponencial(0.20, 'lte', 4)">Caso Ej. 7: Mensajería (λ=0.20 msg/s, T&lt;4s)</button>
+                    <button type="button" class="chip-btn" onclick="cargarPresetExponencial(0.20, 'gt', 10)">Caso Ej. 7: Timeout (λ=0.20 msg/s, T&gt;10s)</button>
+                    <button type="button" class="chip-btn" onclick="cargarPresetExponencial(0.20, 'inv', 0.90)">Caso Ej. 7: Percentil 90% (P=0.90)</button>
+                </div>
+
+                <!-- Formulario -->
+                <div class="calc-form-card">
+                    <div class="calc-inputs-row">
+                        <div class="cyber-input-wrap">
+                            <label for="exp_mode" class="cyber-label">
+                                <span class="label-code">MODO</span>
+                                <span>PARÁMETRO BASE:</span>
+                            </label>
+                            <select id="exp_mode" class="cyber-select" onchange="toggleExpMode()">
+                                <option value="lambda" selected>Ingresar Tasa λ (eventos/tiempo)</option>
+                                <option value="mean">Ingresar Media β = 1/λ (tiempo/evento)</option>
+                            </select>
+                            <span class="input-hint">Definición matemática de entrada</span>
+                        </div>
+
+                        <div class="cyber-input-wrap" id="wrap_exp_val">
+                            <label for="exp_val" class="cyber-label">
+                                <span class="label-code" id="lbl_exp_code">λ</span>
+                                <span id="lbl_exp_val">TASA DE EVENTOS λ:</span>
+                            </label>
+                            <input type="number" id="exp_val" class="cyber-input" value="0.20" min="0.0001" step="any">
+                            <span class="input-hint" id="hint_exp_val">Ejemplo: 0.20 mensajes por segundo</span>
+                        </div>
+
+                        <div class="cyber-input-wrap">
+                            <label for="exp_op" class="cyber-label">
+                                <span class="label-code">OP</span>
+                                <span>TIPO DE CONSULTA:</span>
+                            </label>
+                            <select id="exp_op" class="cyber-select" onchange="toggleExpInputs()">
+                                <option value="all">Análisis Integral Completo</option>
+                                <option value="lte" selected>P(T ≤ t) // Tiempo menor o igual a t</option>
+                                <option value="gt">P(T &gt; t) // Tiempo mayor a t (Cola de confiabilidad)</option>
+                                <option value="between">P(a ≤ T ≤ b) // Entre dos instantes [a, b]</option>
+                                <option value="inv">Percentil Inverso: Hallar t para un P dado</option>
+                            </select>
+                            <span class="input-hint">Criterio temporal a evaluar</span>
+                        </div>
+
+                        <div class="cyber-input-wrap" id="wrap_exp_t">
+                            <label for="exp_t" class="cyber-label">
+                                <span class="label-code">t</span>
+                                <span id="label_exp_t">TIEMPO CRÍTICO t:</span>
+                            </label>
+                            <input type="number" id="exp_t" class="cyber-input" value="4" min="0" step="any">
+                            <span class="input-hint">Instante de tiempo a evaluar</span>
+                        </div>
+
+                        <div class="cyber-input-wrap" id="wrap_exp_b" style="display: none;">
+                            <label for="exp_b" class="cyber-label">
+                                <span class="label-code">b</span>
+                                <span>TIEMPO FINAL b:</span>
+                            </label>
+                            <input type="number" id="exp_b" class="cyber-input" value="8" min="0" step="any">
+                            <span class="input-hint">Límite superior del intervalo</span>
+                        </div>
+
+                        <div class="cyber-input-wrap" id="wrap_exp_p" style="display: none;">
+                            <label for="exp_p" class="cyber-label">
+                                <span class="label-code">P</span>
+                                <span>PROBABILIDAD ACUMULADA P (0 &lt; P &lt; 1):</span>
+                            </label>
+                            <input type="number" id="exp_p" class="cyber-input" value="0.90" min="0.0001" max="0.9999" step="0.001">
+                            <span class="input-hint">Porcentaje acumulado para despejar t (ej. 0.90)</span>
+                        </div>
+                    </div>
+
+                    <div class="calc-action-row">
+                        <button class="btn-calculate" onclick="ejecutarCalcExponencial(this)">
+                            <span class="btn-glow"></span>
+                            <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <polygon points="5 3 19 12 5 21 5 3"></polygon>
+                            </svg>
+                            <span>EJECUTAR CÁLCULO EXPONENCIAL</span>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="loader-card" id="loader_calc_exp" style="display: none;"></div>
+                <div class="results-card" id="res_calc_exp" style="display: none;"></div>
+            </section>
+
+            <!-- ================================================================= -->
+            <!-- 5. CALCULADORA: DISTRIBUCIÓN NORMAL GAUSSIANA                     -->
+            <!-- ================================================================= -->
+            <section id="calc-normal" class="tab-content">
+                <div class="content-header">
+                    <div class="title-meta">
+                        <span class="badge-category">CALCULADORA ESTADÍSTICA UNIVERSAL</span>
+                        <span class="badge-distro">DISTRIBUCIÓN NORMAL : N(μ, σ)</span>
+                    </div>
+                    <h3 class="exercise-heading">Calculadora de Distribución Normal Gaussiana</h3>
+                    <p class="section-lead-text">Calcula probabilidades tipificadas $Z$, áreas bajo la campana de Gauss, intervalos simétricos y percentiles inversos para cualquier variable continua.</p>
+                </div>
+
+                <!-- Presets -->
+                <div class="example-chips-bar">
+                    <span class="chips-label">CARGAR PRESETS // CASOS DE ESTUDIO:</span>
+                    <button type="button" class="chip-btn" onclick="cargarPresetNormal(240, 35, 'gt', 300)">Caso Ej. 8: SLA Base de Datos (μ=240, σ=35, X>300)</button>
+                    <button type="button" class="chip-btn" onclick="cargarPresetNormal(240, 35, 'between', 210, 280)">Caso Ej. 8: Intervalo (210 ≤ X ≤ 280)</button>
+                    <button type="button" class="chip-btn" onclick="cargarPresetNormal(240, 35, 'inv', 0.95)">Caso Ej. 8: Percentil 95% (P=0.95)</button>
+                    <button type="button" class="chip-btn" onclick="cargarPresetNormal(0, 1, 'lte', 1.96)">Normal Estándar N(0, 1) en Z=1.96</button>
+                </div>
+
+                <!-- Formulario -->
+                <div class="calc-form-card">
+                    <div class="calc-inputs-row">
+                        <div class="cyber-input-wrap">
+                            <label for="norm_mu" class="cyber-label">
+                                <span class="label-code">μ</span>
+                                <span>MEDIA POBLACIONAL (μ):</span>
+                            </label>
+                            <input type="number" id="norm_mu" class="cyber-input" value="240" step="any">
+                            <span class="input-hint">Centro simétrico de la distribución</span>
+                        </div>
+
+                        <div class="cyber-input-wrap">
+                            <label for="norm_sigma" class="cyber-label">
+                                <span class="label-code">σ</span>
+                                <span>DESVIACIÓN ESTÁNDAR (σ &gt; 0):</span>
+                            </label>
+                            <input type="number" id="norm_sigma" class="cyber-input" value="35" min="0.0001" step="any">
+                            <span class="input-hint">Dispersión de los datos alrededor de la media</span>
+                        </div>
+
+                        <div class="cyber-input-wrap">
+                            <label for="norm_op" class="cyber-label">
+                                <span class="label-code">OP</span>
+                                <span>TIPO DE CONSULTA:</span>
+                            </label>
+                            <select id="norm_op" class="cyber-select" onchange="toggleNormalInputs()">
+                                <option value="all">Análisis Integral Completo (Cotas + Z)</option>
+                                <option value="lte">P(X ≤ x) // Cola Izquierda (Menor o igual)</option>
+                                <option value="gt" selected>P(X &gt; x) // Cola Derecha (Mayor a x)</option>
+                                <option value="between">P(a ≤ X ≤ b) // Entre dos valores [a, b]</option>
+                                <option value="inv">Percentil Inverso: Hallar X para un P dado</option>
+                            </select>
+                            <span class="input-hint">Criterio analítico gaussiano</span>
+                        </div>
+
+                        <div class="cyber-input-wrap" id="wrap_norm_x">
+                            <label for="norm_x" class="cyber-label">
+                                <span class="label-code">x</span>
+                                <span id="label_norm_x">PUNTO DE EVALUACIÓN x:</span>
+                            </label>
+                            <input type="number" id="norm_x" class="cyber-input" value="300" step="any">
+                            <span class="input-hint">Valor continuo a contrastar</span>
+                        </div>
+
+                        <div class="cyber-input-wrap" id="wrap_norm_b" style="display: none;">
+                            <label for="norm_b" class="cyber-label">
+                                <span class="label-code">b</span>
+                                <span>LÍMITE SUPERIOR b:</span>
+                            </label>
+                            <input type="number" id="norm_b" class="cyber-input" value="280" step="any">
+                            <span class="input-hint">Límite superior del intervalo</span>
+                        </div>
+
+                        <div class="cyber-input-wrap" id="wrap_norm_p" style="display: none;">
+                            <label for="norm_p" class="cyber-label">
+                                <span class="label-code">P</span>
+                                <span>PROBABILIDAD ACUMULADA P (0 &lt; P &lt; 1):</span>
+                            </label>
+                            <input type="number" id="norm_p" class="cyber-input" value="0.95" min="0.0001" max="0.9999" step="0.001">
+                            <span class="input-hint">Ejemplo: 0.95 para percentil 95%</span>
+                        </div>
+                    </div>
+
+                    <div class="calc-action-row">
+                        <button class="btn-calculate" onclick="ejecutarCalcNormal(this)">
+                            <span class="btn-glow"></span>
+                            <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <polygon points="5 3 19 12 5 21 5 3"></polygon>
+                            </svg>
+                            <span>EJECUTAR CÁLCULO NORMAL GAUSSIANO</span>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="loader-card" id="loader_calc_normal" style="display: none;"></div>
+                <div class="results-card" id="res_calc_normal" style="display: none;"></div>
+            </section>
+
+            <!-- ================================================================= -->
+            <!-- CASOS DE ESTUDIO DEL PROYECTO (EJERCICIOS PRÁCTICOS DEL EXAMEN)   -->
+            <!-- ================================================================= -->
+
             <!-- EJERCICIO 1 -->
-            <section id="ej1" class="tab-content active">
+            <section id="ej1" class="tab-content">
                 <div class="content-header">
                     <div class="title-meta">
                         <span class="badge-category">CIBERSEGURIDAD // AUDITORÍA BANCARIA</span>
