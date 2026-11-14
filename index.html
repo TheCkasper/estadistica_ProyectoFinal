@@ -86,6 +86,25 @@
                 </div>
             </div>
 
+            <!-- RECURSOS DEL PROYECTO: VIDEO DE PRESENTACIÓN Y GUÍA PDF -->
+            <div class="resource-switcher-container">
+                <button class="resource-btn" id="btn-resource-video" onclick="openResource('video')" title="Ver el video de presentación">
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polygon points="5 3 19 12 5 21 5 3"></polygon>
+                    </svg>
+                    <span>VIDEO</span>
+                </button>
+                <button class="resource-btn" id="btn-resource-pdf" onclick="openResource('pdf')" title="Ver ejercicios en PDF">
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                        <polyline points="14 2 14 8 20 8"></polyline>
+                        <line x1="16" y1="13" x2="8" y2="13"></line>
+                        <line x1="16" y1="17" x2="8" y2="17"></line>
+                    </svg>
+                    <span>EJERCICIOS PDF</span>
+                </button>
+            </div>
+
             <!-- SELECTOR PRINCIPAL DE MODO: CALCULADORA UNIVERSAL vs EJERCICIOS -->
             <div class="mode-switcher-container">
                 <div class="mode-switcher-pill">
@@ -255,6 +274,38 @@
                         &nbsp;|&nbsp; <strong>CARNET:</strong> 0902 - 25 - 20049</p>
                 </div>
             </div>
+
+            <!-- RECURSOS MULTIMEDIA -->
+            <section id="resource-video" class="resource-content">
+                <div class="content-header">
+                    <div class="title-meta">
+                        <span class="badge-category">RECURSO DEL PROYECTO</span>
+                        <span class="badge-distro">VIDEO DE PRESENTACIÓN</span>
+                    </div>
+                    <h3 class="exercise-heading">Presentación del proyecto</h3>
+                    <p class="section-lead-text">Reproduce el video de presentación de la plataforma estadística.</p>
+                </div>
+                <div class="resource-viewer video-viewer">
+                    <video controls preload="metadata">
+                        <source src="presentacion.mp4" type="video/mp4">
+                        Tu navegador no puede reproducir este video.
+                    </video>
+                </div>
+            </section>
+
+            <section id="resource-pdf" class="resource-content">
+                <div class="content-header">
+                    <div class="title-meta">
+                        <span class="badge-category">RECURSO DEL PROYECTO</span>
+                        <span class="badge-distro">EJERCICIOS PDF</span>
+                    </div>
+                    <h3 class="exercise-heading">Ejercicios de estadística</h3>
+                    <p class="section-lead-text">Consulta los ejercicios directamente en el visor PDF.</p>
+                </div>
+                <div class="resource-viewer pdf-viewer">
+                    <iframe src="pdf_estadistica.pdf" title="Ejercicios de estadística en PDF"></iframe>
+                </div>
+            </section>
 
             <!-- ================================================================= -->
             <!-- 1. CALCULADORA: DISTRIBUCIÓN BINOMIAL                             -->

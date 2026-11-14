@@ -684,6 +684,28 @@ function aplicarEscalaPoisson() {
 }
 
 // --- NAVEGACIÓN Y CONTROL DE PESTAÑAS ---
+function openResource(resource) {
+    const resourceId = `resource-${resource}`;
+    const targetResource = document.getElementById(resourceId);
+
+    if (!targetResource) {
+        console.error(`No se pudo abrir el recurso: ${resourceId} no existe.`);
+        return;
+    }
+
+    document.querySelectorAll('.tab-content, .resource-content').forEach(content => {
+        content.classList.remove('active');
+    });
+    document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+    document.querySelectorAll('.resource-btn').forEach(btn => btn.classList.remove('active'));
+    targetResource.classList.add('active');
+
+    const resourceButton = document.getElementById(`btn-resource-${resource}`);
+    if (resourceButton) resourceButton.classList.add('active');
+
+    document.querySelectorAll('.mode-tab-btn').forEach(btn => btn.classList.remove('active'));
+}
+
 function switchAppMode(mode) {
     const isCasesMode = mode === 'cases';
     const calcGroup = document.getElementById('nav-calc-group');
@@ -711,8 +733,11 @@ function switchAppMode(mode) {
 }
 
 function openTab(tabId, btnElement) {
-    document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
+    document.querySelectorAll('.tab-content, .resource-content').forEach(tab => tab.classList.remove('active'));
     document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+    document.querySelectorAll('.resource-btn').forEach(btn => btn.classList.remove('active'));
+    document.getElementById('btn-mode-calc')?.classList.toggle('active', tabId.indexOf('calc-') === 0);
+    document.getElementById('btn-mode-cases')?.classList.toggle('active', tabId.indexOf('ej') === 0);
 
     const targetTab = document.getElementById(tabId);
     if (targetTab) {
